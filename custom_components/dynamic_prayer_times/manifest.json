@@ -8,5 +8,5 @@
   "integration_type": "integration",
   "iot_class": "local_calculations",
   "requirements": ["prayer-times-calculator-offline==0.0.10"],
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

@@ -1,11 +1,21 @@
-DOMAIN = "islamic_prayer_times"
+"""Constants for the Dynamic Islamic Prayer Times integration."""
+from typing import Final
 
-CONF_CALC_METHOD = "calculation_method"
-CONF_LAT_ADJ_METHOD = "latitude_adjustment_method"
-CONF_MIDNIGHT_MODE = "midnight_mode"
-CONF_SCHOOL = "school"
+DOMAIN: Final = "dynamic_prayer_times"
 
-DEFAULT_CALC_METHOD = "isna"
-DEFAULT_LAT_ADJ_METHOD = "nearest_latitude"
-DEFAULT_MIDNIGHT_MODE = "standard"
-DEFAULT_SCHOOL = "shafi"
+CONF_CALC_METHOD: Final = "calculation_method"
+CONF_METHOD_TYPE: Final = "location_type"
+CONF_TRACKING_ENTITY: Final = "tracking_entity"
+CONF_LAT_ADJ_METHOD: Final = "latitude_adjustment_method"
+CONF_MIDNIGHT_MODE: Final = "midnight_mode"
+CONF_SCHOOL: Final = "school"
+
+METHOD_FIXED: Final = "fixed"
+METHOD_TRACKER: Final = "tracker"
+
+DEFAULT_CALC_METHOD: Final = "isna"
+DEFAULT_LAT_ADJ_METHOD: Final = "angle based"
+DEFAULT_MIDNIGHT_MODE: Final = "standard"
+DEFAULT_SCHOOL: Final = "shafi"
+
+CALC_METHODS: Final = ["jafari", "karachi", "isna", "makkah", "egypt", "tehran", "gulf"]

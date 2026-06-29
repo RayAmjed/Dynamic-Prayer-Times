@@ -1,37 +1,37 @@
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+"""Platform provisioning for sensors."""
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from .coordinator import IslamicPrayerTimesConfigEntry, IslamicPrayerDataUpdateCoordinator
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-PRAYER_NAMES = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha", "Midnight", "Imsak"]
+PRAYER_TYPES = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha", "Midnight"]
 
 async def async_setup_entry(
-    hass: HomeAssistant,
-    entry: IslamicPrayerTimesConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
-    """Set up entry platform sensors."""
+    """Set up platform entries."""
     coordinator = entry.runtime_data
-    async_add_entities(
-        IslamicPrayerTimeSensor(coordinator, prayer_name)
-        for prayer_name in PRAYER_NAMES
-    )
+    entities = [IslamicPrayerTimeSensor(coordinator, p_type) for p_type in PRAYER_TYPES]
+    async_add_entities(entities)
 
-class IslamicPrayerTimeSensor(CoordinatorEntity[IslamicPrayerDataUpdateCoordinator], SensorEntity):
-    """Representation of an Islamic prayer time sensor."""
-    
+class IslamicPrayerTimeSensor(CoordinatorEntity, SensorEntity):
+    """Sensor definitions."""
+
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_has_entity_name = True
 
-    def __init__(self, coordinator: IslamicPrayerDataUpdateCoordinator, prayer_name: str) -> None:
-        """Initialize the sensor."""
+    def __init__(self, coordinator, prayer_type: str) -> None:
         super().__init__(coordinator)
-        self.prayer_name = prayer_name
-        self._attr_translation_key = prayer_name.lower()
-        self._attr_unique_id = f"{coordinator.config_entry.entry_id}_{prayer_name}"
+        self.prayer_type = prayer_type
+        self._attr_unique_id = f"{coordinator.config_entry.entry_id}_{prayer_type.lower()}"
+
+    @property
+    def name(self) -> str:
+        return self.prayer_type
 
     @property
     def native_value(self):
-        """Return the state of the sensor."""
-        return self.coordinator.data.get(self.prayer_name)
+        if not self.coordinator.data:
+            return None
+        return self.coordinator.data.get(self.prayer_type)

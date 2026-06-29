@@ -1,0 +1,11 @@
+DOMAIN = "islamic_prayer_times"
+
+CONF_CALC_METHOD = "calculation_method"
+CONF_LAT_ADJ_METHOD = "latitude_adjustment_method"
+CONF_MIDNIGHT_MODE = "midnight_mode"
+CONF_SCHOOL = "school"
+
+DEFAULT_CALC_METHOD = "isna"
+DEFAULT_LAT_ADJ_METHOD = "nearest_latitude"
+DEFAULT_MIDNIGHT_MODE = "standard"
+DEFAULT_SCHOOL = "shafi"
